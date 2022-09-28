@@ -6,7 +6,7 @@
 * no Database
 
 ## Function Topic
-* Spring Custom Qualifier Annotation ([link](https://www.concretepage.com/spring/spring_custom_qualifier_annotation#java-config))
+* [Spring Custom Qualifier Annotation](https://www.concretepage.com/spring/spring_custom_qualifier_annotation#java-config)
 
 ## API
 [GET] localhost:8080/common
