@@ -107,7 +107,6 @@ public class OrderBookServiceImpl implements OrderBookService {
     public int order() {
         int customeId = customerService.getCustomerById(0);
         int itemId = itemService.getItemById(customeId);
-        int result = paymentService.pay(itemId);
-        return result;
+        return paymentService.pay(itemId);
     }
 }

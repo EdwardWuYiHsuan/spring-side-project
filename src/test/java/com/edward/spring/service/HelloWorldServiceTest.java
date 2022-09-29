@@ -14,10 +14,10 @@ public class HelloWorldServiceTest {
 
     @Test
     public void testPrint() {
-        // Then.
+        // When.
         String result = helloWorldService.print();
 
-        // And expect.
+        // Then.
         assertThat(result).isEqualTo("Hello World");
     }
 }

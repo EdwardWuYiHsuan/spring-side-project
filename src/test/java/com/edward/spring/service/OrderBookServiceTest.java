@@ -14,8 +14,10 @@ public class OrderBookServiceTest {
 
     @Test
     public void testOrder() {
-        assertThat(orderBookService).isNotNull();
+        // When.
         int result = orderBookService.order();
+
+        // Thne.
         assertThat(result).isEqualTo(3);
     }
 }

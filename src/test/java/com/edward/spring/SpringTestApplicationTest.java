@@ -1,6 +1,8 @@
 package com.edward.spring;
 
-import com.edward.spring.service.impl.HelloWorldServiceImpl;
+import com.edward.spring.service.HelloWorldService;
+import com.edward.spring.service.OrderBookService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,15 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class SpringTestApplicationTest {
 
     @Autowired
-    private HelloWorldServiceImpl helloWorldServiceImpl;
+    private HelloWorldService helloWorldService;
+    @Autowired
+    private OrderBookService orderBookService;
 
     @Test
     public void contextLoads() {
         System.out.println("Test Application Context");
-    }
-
-    @Test
-    public void print() {
-        helloWorldServiceImpl.print();
+        Assertions.assertThat(helloWorldService).isNotNull();
+        Assertions.assertThat(orderBookService).isNotNull();
     }
 }
