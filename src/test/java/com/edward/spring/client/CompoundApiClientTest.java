@@ -28,7 +28,13 @@ public class CompoundApiClientTest {
         CompoundGetTokenApyResponse response = compoundApiClient.getTokenApy(contractAddress);
 
         // Then.
-        Assertions.assertNotNull(response);
         System.out.println(response);
+        Assertions.assertNotNull(response);
+        Assertions.assertTrue(response.isSuccess());
+        Assertions.assertNotNull(response.getCtoken());
+        Assertions.assertEquals(1, response.getCtoken().size());
+        CompoundGetTokenApyResponse.Ctoken ctoken = response.getCtoken().get(0);
+        Assertions.assertNotNull(ctoken);
+        Assertions.assertEquals("USDT", ctoken.getUnderlyingSymbol());
     }
 }

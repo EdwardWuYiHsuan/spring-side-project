@@ -23,6 +23,11 @@ dependencies {
 
     // Spring Cloud - Feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5'
+    // https://www.baeldung.com/spring-cloud-openfeign#custom
+    // In this example, we tell Feign to use OkHttpClient instead of the default one to support HTTP/2.
+    // Feign supports multiple clients for different use cases, including the ApacheHttpClient, which sends more headers with the request, for example, Content-Length, which some servers expect.
+    implementation 'io.github.openfeign:feign-okhttp:12.1'
+    implementation 'io.github.openfeign:feign-httpclient:12.1'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
