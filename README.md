@@ -4,6 +4,7 @@
 * RabbitMQ
 * Java Lombok
 * no Database
+* Spring Cloud - Feign
 
 ## Function Topic
 * [Spring Custom Qualifier Annotation](https://www.concretepage.com/spring/spring_custom_qualifier_annotation#java-config)

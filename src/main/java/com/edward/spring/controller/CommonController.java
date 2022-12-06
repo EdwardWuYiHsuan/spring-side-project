@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/common")
+@RequiredArgsConstructor
 public class CommonController {
 
     private final SimpleQueueSender simpleQueueSender;

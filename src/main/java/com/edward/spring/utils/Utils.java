@@ -1,10 +1,12 @@
 package com.edward.spring.utils;
 
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.text.RandomStringGenerator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,16 +15,16 @@ public final class Utils {
     private static final String EMAIL_PATTERN_REX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final String REGEX_IDENTITY_NUMBER = "^[A-Z]\\d{9}$";
 
+    private Utils() {}
+
     /**
      * Minus few days from now with starting time. And then convert to millisecond.
      * 主要是以"天"為單位作減法，所以時分秒就不計算，也沒有一天中間作減法然後算到過去的中間，
      * 以下算法來減去days，就不包含執行的當天
      *
-     * @param days
      * @return millisecond
      */
-    public static long minusDaysFromNowToMillisec(int days)
-    {
+    public static long minusDaysFromNowToMillisec(int days) {
         ZonedDateTime zonedDateTime = ZonedDateTime.now().minusDays(days).withHour(0).withMinute(0)
                 .withSecond(0).withNano(0);
         return zonedDateTime.toInstant().toEpochMilli();
@@ -38,8 +40,7 @@ public final class Utils {
      * @param days
      * @return millisecond
      */
-    public static long plusDaysFromNowToMillisec(int days)
-    {
+    public static long plusDaysFromNowToMillisec(int days) {
         ZonedDateTime zonedDateTime = ZonedDateTime.now().plusDays(days).withHour(0).withMinute(0)
                 .withSecond(0).withNano(0);
         return zonedDateTime.toInstant().toEpochMilli();
@@ -51,9 +52,8 @@ public final class Utils {
      * @param mailAddr	Email address, e.g. abc123@apple.com
      * @return result
      */
-    public static boolean isValidEmailAddress(String mailAddr)
-    {
-        if (StringUtils.isEmpty(mailAddr)) {
+    public static boolean isValidEmailAddress(String mailAddr) {
+        if (null == mailAddr || mailAddr.length() == 0) {
             return false;
         }
 
@@ -62,57 +62,41 @@ public final class Utils {
         return matcher.matches();
     }
 
-    public static boolean isValidBooleanValue(String value)
-    {
-        if (null == value) {
+    public static boolean isValidBooleanValue(String value) {
+        if (null == value || value.length() == 0) {
             return false;
         }
 
-        if (value.equalsIgnoreCase(Boolean.TRUE.toString()) || value.equalsIgnoreCase(Boolean.FALSE.toString())) {
-            return true;
-        } else {
-            return false;
+        return value.equalsIgnoreCase(Boolean.TRUE.toString()) || value.equalsIgnoreCase(Boolean.FALSE.toString());
+    }
+
+    public static Optional<Integer> isValidIntegerValue(String value) {
+        try {
+            return Optional.of(Integer.parseInt(value));
+        } catch (Exception e) {
+            return Optional.empty();
         }
     }
 
-    public static boolean isValidIntegerValue(String value)
-    {
+    public static Optional<Long> isValidLongValue(String value) {
         try {
-            Integer.parseInt(value);
+            return Optional.of(Long.parseLong(value));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public static boolean isValidURL(String url) {
+        try {
+            new URL(url).toURI();
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    public static boolean isValidLongValue(String value)
-    {
-        try {
-            Long.parseLong(value);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static boolean isValidURL(String value)
-    {
-        try {
-            new URL(value).toURI();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static boolean isValidURL(String value)
-    {
-        return new org.apache.commons.validator.routines.UrlValidator.isValid(url);
-    }
-
-    public static boolean isValidIdentityNumber(String identityNumber)
-    {
-        if (StringUtils.isEmpty(identityNumber)) {
+    public static boolean isValidIdentityNumber(String identityNumber) {
+        if (null == identityNumber || identityNumber.length() == 0) {
             return false;
         }
 
@@ -128,39 +112,10 @@ public final class Utils {
     /**
      * 產生指定長度的亂數數字字串
      */
-    public static String generateRandomDigital(int length)
-    {
+    public static String generateRandomDigital(int length) {
         char[][] pairs = {{'0', '9'}};
         org.apache.commons.text.RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange(pairs).build();
         return generator.generate(length);
-    }
-
-    /**
-     * 再來源字串不滿指定長度時，在前/後補滿指定的字元
-     *
-     * * 可以改使用Library - org.apache.commons.lang3.StringUtils
-     * > StringUtils.leftPad(String str, int size, String padStr)
-     * > StringUtils.rightPad(String str, int size, String padStr)
-     */
-    public static String fillCharacterLessThanLength(String source, int length, FrontBack frontBack, char character)
-    {
-        if (source.length() >= length) {
-            return source;
-        } else {
-            final int diffLen = length - source.length();
-            StringBuilder sb = new StringBuilder(source);
-            switch (frontBack) {
-                case FRONT:	for (int i = 0; i < diffLen; i++) {
-                    sb.insert(0, character);
-                }
-                    break;
-                case BACK:	for (int i = 0; i < diffLen; i++) {
-                    sb.append(character);
-                }
-                    break;
-            }
-            return sb.toString();
-        }
     }
 
     /**
@@ -180,9 +135,11 @@ public final class Utils {
      */
     public static boolean isLocalhost(HttpServletRequest request) {
         final String ip;
-        if (request.getHeader("api-gateway-source-ip") != null && !request.getHeader("api-gateway-source-ip").matches("") && !request.getHeader("api-gateway-source-ip").matches("null")) {  //From API gateway.
+        if (request.getHeader("api-gateway-source-ip") != null && !request.getHeader("api-gateway-source-ip").matches("") &&
+                !request.getHeader("api-gateway-source-ip").matches("null")) {  //From API gateway.
             ip = request.getHeader("api-gateway-source-ip").split(",")[0];
-        } else if (request.getHeader("x-forwarded-for") != null && !request.getHeader("x-forwarded-for").matches("") && !request.getHeader("x-forwarded-for").matches("null")) {  //From WAF or load balancer.
+        } else if (request.getHeader("x-forwarded-for") != null && !request.getHeader("x-forwarded-for").matches("") &&
+                !request.getHeader("x-forwarded-for").matches("null")) {  //From WAF or load balancer.
             ip = request.getHeader("x-forwarded-for").split(",")[0];
         } else {
             ip = request.getRemoteAddr();
@@ -211,8 +168,7 @@ public final class Utils {
             }
         } else if (ip.length() > 15) {
             String[] ips = ip.split(",");
-            for (int index = 0; index < ips.length; index++) {
-                String strIp = (String) ips[index];
+            for (String strIp : ips) {
                 if (!"unknown".equalsIgnoreCase(strIp)) {
                     ip = strIp;
                     break;
