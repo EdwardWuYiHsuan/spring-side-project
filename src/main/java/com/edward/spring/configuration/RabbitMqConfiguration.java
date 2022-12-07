@@ -1,4 +1,4 @@
-package com.edward.spring.config;
+package com.edward.spring.configuration;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMqConfig {
+public class RabbitMqConfiguration {
 
     public static final String FANOUT_NAME_TEST = "fanout.test";
     public static final String QUEUE_NAME_TEST = "queue.test";

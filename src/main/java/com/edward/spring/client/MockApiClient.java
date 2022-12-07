@@ -2,6 +2,7 @@ package com.edward.spring.client;
 
 import com.edward.spring.client.response.QueryHealthCheckResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,7 +23,7 @@ public interface MockApiClient {
      * </pre>
      * @return {@link QueryHealthCheckResponse}
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/common/health")
+    @RequestMapping(method = RequestMethod.GET, value = "/common/health", headers = {"admin-token=${server.mock.admin-token}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     QueryHealthCheckResponse healthCheck();
 
 }
