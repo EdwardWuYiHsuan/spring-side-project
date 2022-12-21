@@ -5,7 +5,6 @@ import org.apache.commons.text.RandomStringGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URL;
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,35 +15,6 @@ public final class Utils {
     private static final String REGEX_IDENTITY_NUMBER = "^[A-Z]\\d{9}$";
 
     private Utils() {}
-
-    /**
-     * Minus few days from now with starting time. And then convert to millisecond.
-     * 主要是以"天"為單位作減法，所以時分秒就不計算，也沒有一天中間作減法然後算到過去的中間，
-     * 以下算法來減去days，就不包含執行的當天
-     *
-     * @return millisecond
-     */
-    public static long minusDaysFromNowToMillisec(int days) {
-        ZonedDateTime zonedDateTime = ZonedDateTime.now().minusDays(days).withHour(0).withMinute(0)
-                .withSecond(0).withNano(0);
-        return zonedDateTime.toInstant().toEpochMilli();
-    }
-
-    /**
-     * Plus few days from now with starting time. And then convert to millisecond.
-     * 主要是以"天"為單位作加法，所以時分秒就不計算，也沒有一天中間作加法然後算到未來的中間，
-     * 以下算法來加去days，包含執行的當天，當天也算一天，往後加
-     *
-     * 最後確定不需要考慮時分秒，ZonedDateTime zonedDateTime = ZonedDateTime.now().plusDays(days);
-     *
-     * @param days
-     * @return millisecond
-     */
-    public static long plusDaysFromNowToMillisec(int days) {
-        ZonedDateTime zonedDateTime = ZonedDateTime.now().plusDays(days).withHour(0).withMinute(0)
-                .withSecond(0).withNano(0);
-        return zonedDateTime.toInstant().toEpochMilli();
-    }
 
     /**
      * Verify Email Address is valid or not.
