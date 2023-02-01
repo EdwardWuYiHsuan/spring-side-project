@@ -1,16 +1,16 @@
 package com.edward.spring.client;
 
 import com.edward.spring.client.response.QueryHealthCheckResponse;
+import com.edward.spring.configuration.FeignClientConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(value = "mockApiClient", url = "${server.mock.url}")
+@FeignClient(value = "mockApiClient", url = "${server.mock.url}", configuration = FeignClientConfiguration.class)  // customize client.
 public interface MockApiClient {
 
     /**
-     * Query Health Check
+     * Health Check
      * <pre>
      *  {
      *      "code": "0",
@@ -23,7 +23,7 @@ public interface MockApiClient {
      * </pre>
      * @return {@link QueryHealthCheckResponse}
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/common/health", headers = {"admin-token=${server.mock.admin-token}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/common/health", headers = {"admin-token=${server.mock.admin-token}"})
     QueryHealthCheckResponse healthCheck();
 
 }
