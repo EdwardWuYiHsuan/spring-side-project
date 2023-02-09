@@ -21,11 +21,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
 
     // Spring Cloud - Feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5'
     implementation 'io.github.openfeign:feign-okhttp:12.1'
+
+    // Spirng REST API Document
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+
+    // Prometheus Metrics
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
