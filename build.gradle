@@ -11,16 +11,19 @@ repositories {
     mavenCentral()
 }
 
-test {
-    useJUnitPlatform()
-}
-
 dependencies {
-    // Spring Boot
+    // Spring Boot Relatives
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java:8.0.28'
+
+    // Unit Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2:1.4.199'
 
     // Spring Cloud - Feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5'
@@ -32,15 +35,30 @@ dependencies {
     // Prometheus Metrics
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-    // Lombok
+    //Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Apache Common Library
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.apache.commons:commons-text:1.10.0'
 
-    // Unit test database
-    testImplementation 'com.h2database:h2'
+}
 
+test {
+    useJUnitPlatform()
+    include '**/*.class'
+}
+
+tasks.register('unitTest', Test) {
+    useJUnitPlatform()
+    include 'com/edward/spring/**/**Test.class'
+    exclude 'com/edward/spring/**/**IntegrationTest.class'
+}
+
+tasks.register('integrationTest', Test) {
+    useJUnitPlatform()
+    include 'com/edward/spring/**/**IntegrationTest.class'
 }

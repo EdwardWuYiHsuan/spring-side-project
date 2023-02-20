@@ -1,9 +1,11 @@
 # Edward Side Project
+
 ## Technology Stack
-* Spring Boot (Web、AMQP、Test、Actuator)
+* Spring Boot (Web、JPA、AMQP、Test、Actuator)
+* MySQL
+* Goose : database migration and schema management
 * RabbitMQ
 * Java Lombok
-* no Database
 * Spring Cloud - OpenFeign
 * Micrometer register Prometheus metrics
 
@@ -21,8 +23,14 @@
   * http://localhost:8080/actuator/env
   * http://localhost:8080/actuator/prometheus
 
-TODO : 
-* goose
+## Database Schema Migration
+* `create database edward_spring_test;`
+* `goose mysql "{username}:{password}@/edward_spring_test" status`
+* `goose mysql "{username}:{password}@/edward_spring_test" create edward_spring_test_schema sql`
+* `goose mysql "{username}:{password}@/edward_spring_test" up`
+* `goose mysql "{username}:{password}@/edward_spring_test" down`
+
+## TODO :
 * APM
 * RabbitMQ produce and consumer with prefetch
 * Cache

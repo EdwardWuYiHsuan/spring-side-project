@@ -14,10 +14,7 @@ public class HelloWorldServiceTest {
 
     @Test
     public void testPrint() {
-        // When.
-        String result = helloWorldService.print();
-
-        // Then.
-        assertThat(result).isEqualTo("Hello World");
+        // When and Then.
+        assertThat(helloWorldService.print()).isEqualTo("Hello World");
     }
 }
