@@ -83,9 +83,8 @@ public final class Utils {
      * 產生指定長度的亂數數字字串
      */
     public static String generateRandomDigital(int length) {
-        char[][] pairs = {{'0', '9'}};
-        org.apache.commons.text.RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange(pairs).build();
-        return generator.generate(length);
+        final char[][] pairs = {{'A', 'Z'}, {'0', '9'}};
+        return new RandomStringGenerator.Builder().withinRange(pairs).build().generate(length);
     }
 
     /**

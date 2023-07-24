@@ -1,4 +1,7 @@
+![basic workflow](https://github.com/EdwardWuYiHsuan/spring-side-project/actions/workflows/unit-test.yaml/badge.svg)
+
 # Edward Side Project
+This is a small project
 
 ## Technology Stack
 * Spring Boot (Web、JPA、AMQP、Test、Actuator)
@@ -8,6 +11,7 @@
 * Java Lombok
 * Spring Cloud - OpenFeign
 * Micrometer register Prometheus metrics
+* Unit Test & Git Action
 
 ## Function Topic
 * [Spring Custom Qualifier Annotation](https://www.concretepage.com/spring/spring_custom_qualifier_annotation#java-config)
@@ -35,6 +39,6 @@
 * RabbitMQ produce and consumer with prefetch
 * Cache
     * First-Level Cache : redis
-    * Second-Level Cache : Guava、Caffine Cache、Spring Cache
+    * Second-Level Cache : Guava、Spring Cache (& Caffine Cache)
 * MySQL
 * Mongo DB
